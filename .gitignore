@@ -95,5 +95,16 @@
 # Don't track continuous integration virtual environments
 /continuous-integration/venv/
 
+# Ignore roles which were acquire externally
+/playbooks/roles/*
+!/playbooks/roles/README.md
+
+# Ignore collections which were acquire externally
+/playbooks/collections/*
+!/playbooks/collections/README.md
+
+# Do track configuration file of Ansible-lint
+!/.ansible-lint
+
 # Don't track unpacked product files
 /brlin-private-pki-*/

@@ -18,7 +18,7 @@ do-static-analysis:
   rules:
     - if: $CI_COMMIT_TAG == null
   needs: []
-  image: ubuntu:22.04
+  image: debian:13
   variables:
     PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
     PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
@@ -47,6 +47,12 @@ generate-build-artifacts:
   script:
     - ./continuous-integration/generate-build-artifacts.install-system-deps.sh
     - ./continuous-integration/generate-build-artifacts.sh
+
+  variables:
+    # Ensures that existing file permissions are respected when GitLab Runner clones the project.
+    # This allows ansible-galaxy to load the Ansible configuration file in the project directory.
+    # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/1736
+    FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: "true"
 
 upload-release-assets:
   stage: deploy

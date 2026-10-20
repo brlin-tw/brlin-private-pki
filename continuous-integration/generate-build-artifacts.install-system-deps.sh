@@ -111,6 +111,9 @@ if ! test -v CI; then
 fi
 
 runtime_dependency_pkgs=(
+    # For fetching and injecting external Ansible assets
+    ansible
+
     # project archive compression dependencies
     #bzip2
     gzip

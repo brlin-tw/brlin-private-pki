@@ -21,6 +21,9 @@ repos:
       - id: check-symlinks
       - id: check-vcs-permalinks
       - id: check-yaml
+        args:
+          # Support Ansible Vault constructs
+          - --unsafe
       - id: detect-aws-credentials
         args:
           - --allow-missing-credentials
@@ -80,3 +83,8 @@ repos:
           (?ix)^(
             LICENSES/.*
           )$
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v26.1.0
+    hooks:
+      - id: ansible-lint

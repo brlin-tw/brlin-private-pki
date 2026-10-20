@@ -13,7 +13,7 @@ services:
   test-environment:
     container_name: brlin-private-pki-test
     hostname: brlin-private-pki-test
-    image: ubuntu:24.04
+    image: debian:13
     volumes:
       - type: bind
         source: ./
