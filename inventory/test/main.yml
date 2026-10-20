@@ -1,0 +1,16 @@
+# Inventory for the test environment
+#
+# Copyright 2026 Buo-ren Lin <buo.ren.lin@gmail.com>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+all:
+  vars:
+    ansible_user: vagrant
+    ansible_password: vagrant
+    ansible_become_password: '{{ ansible_password }}'
+  hosts:
+    ca_server:
+      ansible_host: 192.168.56.191
+    server:
+      ansible_host: 192.168.56.192
+    client:
+      ansible_host: 192.168.56.193

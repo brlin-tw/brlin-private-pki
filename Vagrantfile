@@ -20,10 +20,7 @@ Vagrant.configure("2") do |config|
 
   # Find more Vagrant boxes at:
   # https://portal.cloud.hashicorp.com/vagrant/discover?architectures=amd64&providers=virtualbox&query=bento
-  config.vm.box = "bento/ubuntu-24.04"
-  #config.vm.box = "bento/debian-12"
-  #config.vm.box = "bento/fedora-41"
-  #config.vm.box = "bento/rockylinux-9"
+  config.vm.box = "bento/debian-13"
 
   # Configure synced folders for ease access to project files
   config.vm.synced_folder ".", "/vagrant"
@@ -36,23 +33,30 @@ Vagrant.configure("2") do |config|
     v.default_nic_type = "virtio"
   end
 
-  config.vm.define "dev" do |dev|
-    dev.vm.hostname = "dev"
-    dev.vm.network "private_network", ip: "192.168.56.11"
+  config.vm.define "CA server" do |ca_server|
+    ca_server.vm.hostname = "server"
+    ca_server.vm.network "private_network", ip: "192.168.56.191"
 
-    dev.vm.provider :virtualbox do |v|
-      v.name = "#{project_name} - Development environment"
+    ca_server.vm.provider :virtualbox do |v|
+      v.name = "#{project_name} - CA server"
     end
-
-    dev.vm.provision "shell", inline: "/vagrant/dev-assets/deploy-development-environment.sh"
   end
 
-  config.vm.define "test", autostart: false do |test|
-    test.vm.hostname = "test"
-    test.vm.network "private_network", ip: "192.168.56.12"
+  config.vm.define "server", autostart: false do |server|
+    server.vm.hostname = "server"
+    server.vm.network "private_network", ip: "192.168.56.192"
 
-    test.vm.provider :virtualbox do |v|
-      v.name = "#{project_name} - Testing environment"
+    server.vm.provider :virtualbox do |v|
+      v.name = "#{project_name} - Emulated TLS server"
+    end
+  end
+
+  config.vm.define "client", autostart: false do |client|
+    client.vm.hostname = "client"
+    client.vm.network "private_network", ip: "192.168.56.193"
+
+    client.vm.provider :virtualbox do |v|
+      v.name = "#{project_name} - Emulated TLS client"
     end
   end
 end
